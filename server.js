@@ -29,7 +29,9 @@ app.post("/generate-forcecard", async (req, res) => {
       `https://api.twitterapi.io/twitter/user/info?userName=${handle}`,
       { headers: { "X-API-Key": process.env.TWITTERAPI_KEY } }
     );
+
     const profileData = await profileRes.json();
+    console.log("Profile Data:", profileData);  // Log for debugging
     
     const followers = profileData.data.followers || 0;
     const following = profileData.data.following || 0;
