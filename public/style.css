@@ -97,13 +97,13 @@ body {
 
 #sentiment {
   font-size: 1.2rem;
-  color: #00bfff; /* For positive sentiment */
+  color: #00bfff;
 }
 
 #tagline {
   font-size: 1.1rem;
   font-style: italic;
-  color: #ff6347; /* Tomato color for funny tagline */
+  color: #ff6347;
 }
 
 .footer-meta {
