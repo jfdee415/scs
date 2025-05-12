@@ -82,12 +82,12 @@ app.post("/generate-forcecard", async (req, res) => {
       sentiment: sentiment,
       contentCompliance: contentCompliance,
       avatar: `https://unavatar.io/twitter/${handle}`,
-      banner: profileData.data.coverPicture || "default-banner.png", 
+      banner: profileData.data.coverPicture || "default-banner.png",
       tagline: tagline,
       card_id: cardId
     };
 
-    console.log("Generated Card Data:", responseCard); // Log the generated card data
+    console.log("Generated Card Data:", responseCard);
 
     res.json(responseCard);
 
@@ -97,6 +97,5 @@ app.post("/generate-forcecard", async (req, res) => {
   }
 });
 
-// Set the server to listen on the appropriate port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
