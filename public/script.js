@@ -53,9 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = JSON.parse(localStorage.getItem("socialCreditCard"));
     if (!card) return (window.location.href = "/");
 
-    // Log card data for debugging
-    console.log("Card data from localStorage:", card);
-
     // Display all the new social credit elements
     document.getElementById("loyaltyLevel").innerText = `Loyalty Level: ${card.loyaltyLevel}`;
     document.getElementById("socialCreditScore").innerText = `Social Credit: ${card.socialCredit}`;
