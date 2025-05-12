@@ -1,0 +1,43 @@
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background-color: #0d0d0d;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.title-header {
+  font-size: 2.8rem;
+  text-shadow: 0 0 12px #ffe81f, 0 0 24px orange;
+  color: #ffe81f;
+  letter-spacing: 2px;
+}
+
+.card {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #1a1a1a;
+  border-radius: 20px;
+  padding: 15px 15px 25px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 25px #ff0040;
+  transition: box-shadow 0.4s ease;
+}
+
+.card.hidden {
+  display: none !important;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: gold;
+}
+
+/* Add more styles here */
