@@ -86,7 +86,7 @@ app.post("/generate-forcecard", async (req, res) => {
       sentiment: sentiment,
       contentCompliance: contentCompliance,
       avatar: `https://unavatar.io/twitter/${handle}`,
-      banner: `https://unavatar.io/twitter/${handle}?banner`,
+      banner: profileData.data.coverPicture || "default-banner.png", // Use cover picture
       tagline: tagline,
       card_id: cardId
     });
