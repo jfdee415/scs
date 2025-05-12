@@ -65,15 +65,4 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("card_name").innerText = `Comrade ${card.handle}`;
     document.getElementById("avatar").src = card.avatar;
 
-    // Correctly set banner image (from coverPicture)
-    document.getElementById("bannerImage").src = card.banner || "default-banner.png";
-
-    // Update other fields
-    document.getElementById("surveillanceStatus").innerText = `Surveillance Status: ${card.surveillanceStatus}`;
-    document.getElementById("tagline").innerText = `Tagline: ${card.tagline}`;
-
-    // Show the card
-    const cardContainer = document.getElementById("cardContainer");
-    cardContainer.classList.remove("hidden");
-  }
-});
+    // Correctly set banner image (
