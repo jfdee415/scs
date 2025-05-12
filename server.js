@@ -13,6 +13,52 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
+// Function to fetch and clean tweets (as provided)
+const getTweets = async (
+  userId: string,
+  apiKey: string,
+  count: number, // no default
+  includeMedia: boolean,
+): Promise<any[]> => {
+  const cleanedTweets = [];
+  let nextCursor = null;
+  
+  while (cleanedTweets.length < count) {
+    const url = new URL("https://api.twitterapi.io/twitter/user/last_tweets");
+    url.searchParams.set("userId", userId);
+    if (nextCursor) url.searchParams.set("cursor", nextCursor);
+    
+    const res = await fetch(url.toString(), {
+      headers: { "X-API-Key": apiKey },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch tweets: ${res.status}`);
+    }
+
+    const json = await res.json();
+    const tweets = json.data?.tweets ?? [];
+
+    for (const tweet of tweets) {
+      if (tweet.type !== "tweet" || !tweet.text) continue;
+
+      cleanedTweets.push({
+        text: tweet.text,
+        likeCount: tweet.likeCount,
+        retweetCount: tweet.retweetCount,
+        createdAt: tweet.createdAt,
+      });
+
+      if (cleanedTweets.length >= count) break;
+    }
+
+    if (!json.has_next_page || !json.next_cursor) break;
+    nextCursor = json.next_cursor;
+  }
+
+  return cleanedTweets.slice(0, count);
+};
+
 // POST route to generate the social credit card
 app.post("/generate-forcecard", async (req, res) => {
   const { handle } = req.body;
@@ -21,7 +67,6 @@ app.post("/generate-forcecard", async (req, res) => {
   let socialCredit = 1000;
   let surveillanceStatus = "Full Compliance";
   let sentiment = "Positive";
-  let contentCompliance = 10;
   let tagline = "";
 
   try {
@@ -30,18 +75,19 @@ app.post("/generate-forcecard", async (req, res) => {
       { headers: { "X-API-Key": process.env.TWITTERAPI_KEY } }
     );
     const profileData = await profileRes.json();
-    
-    console.log("Profile Data:", profileData);  // Log profile data
+
+    const userId = profileData.data.userId;
+
+    // Get tweets for sentiment analysis
+    const tweets = await getTweets(userId, process.env.TWITTERAPI_KEY, 5, true);
+
+    // Simple sentiment analysis logic (replace with actual sentiment analysis)
+    sentiment = tweets.some(tweet => tweet.text.includes("love") || tweet.text.includes("patriot")) ? "Positive" : "Negative";
 
     const followers = profileData.data.followers || 0;
     const following = profileData.data.following || 0;
-    const tweets = profileData.data.tweets || [];
 
-    sentiment = tweets.some(tweet => tweet.text.includes("love") || tweet.text.includes("patriot")) ? "Positive" : "Negative";
-
-    contentCompliance = tweets.filter(tweet => !tweet.text.includes("approved-topic")).length < 5 ? 10 : 2;
-
-    socialCredit = Math.min(1500, Math.round(1000 + 500 * Math.random())); 
+    socialCredit = Math.min(1500, Math.round(1000 + 500 * Math.random()));
 
     if (handle === "counter_revolutionary") {
       loyaltyLevel = "Needs Re-education";
@@ -80,14 +126,11 @@ app.post("/generate-forcecard", async (req, res) => {
       socialCredit: socialCredit,
       surveillanceStatus: surveillanceStatus,
       sentiment: sentiment,
-      contentCompliance: contentCompliance,
       avatar: `https://unavatar.io/twitter/${handle}`,
       banner: profileData.data.coverPicture || "default-banner.png",
       tagline: tagline,
       card_id: cardId
     };
-
-    console.log("Generated Card Data:", responseCard);
 
     res.json(responseCard);
 
