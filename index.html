@@ -5,19 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CCP Social Credit ID</title>
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script defer src="script.js"></script>
+  <!-- Google Fonts Link -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400&display=swap" rel="stylesheet">
 
   <style>
-    @font-face {
-      font-family: 'OfficialChineseFont';
-      src: url('fonts/OfficialChineseFont.ttf') format('truetype');
-    }
-
+    /* Apply the font globally */
     body {
-      font-family: 'Orbitron', sans-serif;
+      font-family: 'Noto Sans SC', sans-serif;
       background-color: #0d0d0d;
       color: white;
       text-align: center;
@@ -26,7 +20,7 @@
     }
 
     .title-header {
-      font-family: 'OfficialChineseFont', sans-serif;
+      font-family: 'Noto Sans SC', sans-serif;
       font-size: 2.8rem;
       margin-top: 40px;
       margin-bottom: 60px;
@@ -159,6 +153,8 @@
       transform: scale(1.1);
     }
   </style>
+
+  <script defer src="script.js"></script>
 </head>
 <body>
 
@@ -212,26 +208,5 @@
     </a>
   </footer>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const cardData = JSON.parse(localStorage.getItem("forceCard"));
-      if (!cardData) return;
-
-      // Populate card data with satirical Chinese ID system
-      document.getElementById("card_name").innerText = cardData.card_name;
-      document.getElementById("handleTxt").innerText = `@${cardData.handle}`;
-      document.getElementById("followers").innerText = `Followers: ${cardData.followers}`;
-      document.getElementById("following").innerText = `Following: ${cardData.following}`;
-      document.getElementById("bannerImage").src = cardData.banner || "";
-      document.getElementById("avatar").src = cardData.avatar || "";
-
-      // Social credit and loyalty calculation
-      document.getElementById("loyaltyLevel").innerText = `Loyalty Level: ${cardData.loyaltyLevel}`;
-      document.getElementById("socialCreditScore").innerText = `Social Credit: ${cardData.socialCredit}`;
-      document.getElementById("statusText").innerText = cardData.surveillanceStatus;
-
-      document.getElementById("cardContainer").classList.remove("hidden");
-    });
-  </script>
 </body>
 </html>
