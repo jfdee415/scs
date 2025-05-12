@@ -9,10 +9,12 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// Correct path to the public directory for static files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
+// POST route to generate the social credit card
 app.post("/generate-forcecard", async (req, res) => {
   const { handle } = req.body;
   let loyaltyLevel = "High";
@@ -42,5 +44,6 @@ app.post("/generate-forcecard", async (req, res) => {
   });
 });
 
+// Set the server to listen on the appropriate port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
