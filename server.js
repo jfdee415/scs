@@ -14,12 +14,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
 // Function to fetch and clean tweets (as provided)
-const getTweets = async (
-  userId, // No TypeScript annotations here
-  apiKey,
-  count, // no default
-  includeMedia
-) => {
+const getTweets = async (userId, apiKey, count, includeMedia) => {
   const cleanedTweets = [];
   let nextCursor = null;
 
@@ -81,7 +76,6 @@ app.post("/generate-forcecard", async (req, res) => {
     // Get tweets for sentiment analysis
     const tweets = await getTweets(userId, process.env.TWITTERAPI_KEY, 5, true);
 
-    // Simple sentiment analysis logic (replace with actual sentiment analysis)
     sentiment = tweets.some(tweet => tweet.text.includes("love") || tweet.text.includes("patriot")) ? "Positive" : "Negative";
 
     const followers = profileData.data.followers || 0;
@@ -127,7 +121,6 @@ app.post("/generate-forcecard", async (req, res) => {
       surveillanceStatus: surveillanceStatus,
       sentiment: sentiment,
       avatar: `https://unavatar.io/twitter/${handle}`,
-      banner: profileData.data.coverPicture || "default-banner.png",
       tagline: tagline,
       card_id: cardId
     };
