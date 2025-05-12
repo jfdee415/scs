@@ -1,11 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
   const pathname = window.location.pathname;
 
+  // === LANDING PAGE ===
+  if (pathname === "/" || pathname === "/index.html") {
+    const generateBtn = document.getElementById("generate");
+
+    generateBtn?.addEventListener("click", async () => {
+      const handleInput = document.getElementById("handle");
+      const handle = handleInput.value.trim().replace(/^@/, "");
+
+      if (!handle) {
+        alert("Please enter your Twitter handle.");
+        return;
+      }
+
+      try {
+        const res = await fetch("/generate-forcecard", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ handle })
+        });
+
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        if (data.error) {
+          alert("❌ Card generation failed: " + data.error);
+          return;
+        }
+
+        console.log("Card data:", data);  // Log the response data for debugging
+
+        localStorage.setItem("socialCreditCard", JSON.stringify(data));
+        window.location.href = "/result.html"; // Navigate to result page
+      } catch (err) {
+        console.error("❌ Error generating card:", err);
+        alert("There was a problem generating your card:\n" + err.message);
+      }
+    });
+  }
+
+  // === RESULT PAGE ===
   if (pathname === "/result.html") {
     const card = JSON.parse(localStorage.getItem("socialCreditCard"));
     if (!card) return (window.location.href = "/");
 
-    // Display all the new social credit elements
+    // Display all the social credit elements
     document.getElementById("loyaltyLevel").innerText = `Loyalty Level: ${card.loyaltyLevel}`;
     document.getElementById("socialCreditScore").innerText = `Social Credit: ${card.socialCredit}`;
     document.getElementById("sentiment").innerText = `Sentiment: ${card.sentiment}`;
