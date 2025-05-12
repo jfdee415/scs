@@ -24,7 +24,6 @@ app.post("/generate-forcecard", async (req, res) => {
   let contentCompliance = 10; // Base content compliance score
   let tagline = "";
 
-  // Placeholder logic for loyalty level and social credit score
   try {
     const profileRes = await fetch(
       `https://api.twitterapi.io/twitter/user/info?userName=${handle}`,
