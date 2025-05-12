@@ -9,7 +9,6 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Correct path to the public directory for static files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
@@ -17,11 +16,12 @@ app.use(express.static(path.join(__dirname, "public")));
 // POST route to generate the social credit card
 app.post("/generate-forcecard", async (req, res) => {
   const { handle } = req.body;
+
   let loyaltyLevel = "High";
   let socialCredit = 1000;
   let surveillanceStatus = "Full Compliance";
-  let sentiment = "Positive"; // Initial sentiment based on tweets
-  let contentCompliance = 10; // Base content compliance score
+  let sentiment = "Positive";
+  let contentCompliance = 10;
   let tagline = "";
 
   try {
@@ -31,20 +31,18 @@ app.post("/generate-forcecard", async (req, res) => {
     );
     const profileData = await profileRes.json();
     
+    console.log("Profile Data:", profileData);  // Log profile data
+
     const followers = profileData.data.followers || 0;
     const following = profileData.data.following || 0;
     const tweets = profileData.data.tweets || [];
 
-    // Sentiment Analysis (mocking here, replace with actual sentiment analysis logic)
     sentiment = tweets.some(tweet => tweet.text.includes("love") || tweet.text.includes("patriot")) ? "Positive" : "Negative";
 
-    // Content compliance: If too many tweets are critical or unapproved
     contentCompliance = tweets.filter(tweet => !tweet.text.includes("approved-topic")).length < 5 ? 10 : 2;
 
-    // Social credit calculation logic
-    socialCredit = Math.min(1500, Math.round(1000 + 500 * Math.random())); // Random factor for humor
+    socialCredit = Math.min(1500, Math.round(1000 + 500 * Math.random())); 
 
-    // Loyalty and surveillance logic
     if (handle === "counter_revolutionary") {
       loyaltyLevel = "Needs Re-education";
       socialCredit -= 500;
@@ -60,7 +58,6 @@ app.post("/generate-forcecard", async (req, res) => {
       tagline = "Doesn't comply with the greater good. Suspicious.";
     }
 
-    // Add some humorously sarcastic taglines
     if (!tagline) {
       const randomTaglines = [
         "Certified government supporter. Enjoy your privileges.",
@@ -72,10 +69,9 @@ app.post("/generate-forcecard", async (req, res) => {
       tagline = randomTaglines[Math.floor(Math.random() * randomTaglines.length)];
     }
 
-    // Generate the response based on social credit
     const cardId = `FMU-${Date.now().toString().slice(-6)}`;
 
-    res.json({
+    const responseCard = {
       card_name: `Comrade ${handle}`,
       handle: handle,
       followers: followers,
@@ -86,10 +82,14 @@ app.post("/generate-forcecard", async (req, res) => {
       sentiment: sentiment,
       contentCompliance: contentCompliance,
       avatar: `https://unavatar.io/twitter/${handle}`,
-      banner: profileData.data.coverPicture || "default-banner.png", // Use cover picture
+      banner: profileData.data.coverPicture || "default-banner.png", 
       tagline: tagline,
       card_id: cardId
-    });
+    };
+
+    console.log("Generated Card Data:", responseCard); // Log the generated card data
+
+    res.json(responseCard);
 
   } catch (err) {
     console.error("Error fetching Twitter data:", err);
