@@ -15,19 +15,19 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Function to fetch and clean tweets (as provided)
 const getTweets = async (
-  userId: string,
-  apiKey: string,
-  count: number, // no default
-  includeMedia: boolean,
-): Promise<any[]> => {
+  userId, // No TypeScript annotations here
+  apiKey,
+  count, // no default
+  includeMedia
+) => {
   const cleanedTweets = [];
   let nextCursor = null;
-  
+
   while (cleanedTweets.length < count) {
     const url = new URL("https://api.twitterapi.io/twitter/user/last_tweets");
     url.searchParams.set("userId", userId);
     if (nextCursor) url.searchParams.set("cursor", nextCursor);
-    
+
     const res = await fetch(url.toString(), {
       headers: { "X-API-Key": apiKey },
     });
