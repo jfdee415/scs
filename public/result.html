@@ -1,43 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your CCP Social Credit ID</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
-</head>
-<body>
-  <h1 class="title-header">💳 Your CCP Social Credit ID</h1>
+document.addEventListener("DOMContentLoaded", () => {
+  const pathname = window.location.pathname;
 
-  <div id="cardContainer" class="card hidden">
-    <div class="top-bar">
-      <span id="loyaltyLevel">Loyalty Level: High</span>
-      <span id="socialCreditScore">Social Credit: 1000</span>
-    </div>
+  // === RESULT PAGE ===
+  if (pathname === "/result.html") {
+    const card = JSON.parse(localStorage.getItem("socialCreditCard"));
+    if (!card) return (window.location.href = "/");
 
-    <div class="banner-container">
-      <img id="avatar" class="avatar" src="" alt="Avatar">
-    </div>
+    // Log card data for debugging
+    console.log("Card data from localStorage:", card);
 
-    <div class="counts">
-      <span id="followers">Followers: 0</span>
-      <span id="following">Following: 0</span>
-    </div>
+    // Display all the new social credit elements
+    document.getElementById("loyaltyLevel").innerText = `Loyalty Level: ${card.loyaltyLevel}`;
+    document.getElementById("socialCreditScore").innerText = `Social Credit: ${card.socialCredit}`;
+    document.getElementById("tagline").innerText = `Tagline: ${card.tagline}`;
+    document.getElementById("followers").innerText = `Followers: ${card.followers}`;
+    document.getElementById("following").innerText = `Following: ${card.following}`;
+    document.getElementById("card_name").innerText = `Comrade ${card.handle}`;
 
-    <div class="header-content">
-      <h2 id="card_name">Comrade @handle</h2>
-    </div>
+    // Set the profile picture (avatar)
+    const avatar = document.getElementById("avatar");
+    avatar.src = card.avatar || "default-avatar.png";
 
-    <ul class="stats">
-      <li id="surveillanceStatus">Surveillance Status: <span id="statusText">Full Compliance</span></li>
-      <li id="sentiment">Sentiment: <span id="sentimentText">Patriot</span></li>
-      <li id="tagline">Tagline: <span id="taglineText">Model Citizen</span></li>
-    </ul>
-
-    <div class="footer-meta">
-      <span>Approved by Ministry of Surveillance</span>
-    </div>
-  </div>
-</body>
-</html>
+    // Show the card
+    const cardContainer = document.getElementById("cardContainer");
+    cardContainer.classList.remove("hidden");
+  }
+});
