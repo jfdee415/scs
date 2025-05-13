@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
-// Define the loyalty level and social credit tier
+// Define the loyalty level based on social credit score
 function getLoyaltyTier(socialCredit) {
   if (socialCredit >= 1300) return "Top Comrade";
   else if (socialCredit >= 1000) return "Loyal Comrade";
@@ -22,7 +22,7 @@ function getLoyaltyTier(socialCredit) {
 }
 
 // POST route to generate the CCP social credit card
-app.post("/generate-forcecard", async (req, res) => {
+app.post("/generate-ccp-card", async (req, res) => {
   const { handle } = req.body;
   let userId = null;
   let followers = 0;
