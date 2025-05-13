@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
-// Define the loyalty level based on social credit score
+// Define the loyalty level and social credit tier
 function getLoyaltyTier(socialCredit) {
   if (socialCredit >= 1300) return "Top Comrade";
   else if (socialCredit >= 1000) return "Loyal Comrade";
@@ -22,18 +22,18 @@ function getLoyaltyTier(socialCredit) {
 }
 
 // POST route to generate the CCP social credit card
-app.post("/generate-ccp-card", async (req, res) => {
+app.post("/generate-forcecard", async (req, res) => {
   const { handle } = req.body;
   let userId = null;
   let followers = 0;
   let following = 0;
-  let avatarUrl = `https://unavatar.io/twitter/${handle}`;
+  let avatarUrl = `https://unavatar.io/twitter/${handle}`; // Only profile picture
   let displayHandle = handle;
   let isBlueVerified = false;
   let tweets = [];
   let socialCredit = 1000;
   let loyaltyLevel = "Top Comrade";
-  let bannerUrl = "";
+  let bannerUrl = "";  // Removed banner
 
   try {
     console.log(`🔎 Fetching Twitter profile for @${handle}...`);
@@ -49,7 +49,6 @@ app.post("/generate-ccp-card", async (req, res) => {
     displayHandle = profileData?.data?.userName ?? handle;
     isBlueVerified = profileData?.data?.isBlueVerified || false;
     avatarUrl = profileData?.data?.profilePicture?.replace("_normal", "") || avatarUrl;
-    bannerUrl = profileData?.data?.coverPicture || "";
 
   } catch (err) {
     console.warn("⚠️ Twitter profile fetch failed:", err.message);
@@ -78,7 +77,7 @@ app.post("/generate-ccp-card", async (req, res) => {
     loyaltyLevel: loyaltyLevel,
     socialCredit: socialCredit,
     avatar: avatarUrl,
-    banner: bannerUrl,
+    banner: "", // Removed banner
     card_id: cardId,
     tagline: loyaltyLevel === "Counter-Revolutionary" ? "Must undergo re-education." : "True Comrade of the People",
   };
