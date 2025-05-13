@@ -9,6 +9,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// Serve static files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
@@ -21,8 +22,9 @@ app.post("/generate-forcecard", async (req, res) => {
   let socialCredit = 1000;
   let surveillanceStatus = "Full Compliance";
   let sentiment = "Positive";
-  let contentCompliance = 10;
   let tagline = "";
+  let followers = 0;
+  let following = 0;
 
   try {
     const profileRes = await fetch(
@@ -30,18 +32,20 @@ app.post("/generate-forcecard", async (req, res) => {
       { headers: { "X-API-Key": process.env.TWITTERAPI_KEY } }
     );
     const profileData = await profileRes.json();
-    
-    console.log("Profile Data:", profileData);  // Log profile data
 
-    const followers = profileData.data.followers || 0;
-    const following = profileData.data.following || 0;
+    if (!profileData.data) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    followers = profileData.data.followers || 0;
+    following = profileData.data.following || 0;
+
     const tweets = profileData.data.tweets || [];
+    sentiment = tweets.some(tweet => tweet.text.includes("love") || tweet.text.includes("patriot"))
+      ? "Positive"
+      : "Negative";
 
-    sentiment = tweets.some(tweet => tweet.text.includes("love") || tweet.text.includes("patriot")) ? "Positive" : "Negative";
-
-    contentCompliance = tweets.filter(tweet => !tweet.text.includes("approved-topic")).length < 5 ? 10 : 2;
-
-    socialCredit = Math.min(1500, Math.round(1000 + 500 * Math.random())); 
+    socialCredit = Math.min(1500, Math.round(1000 + 500 * Math.random()));
 
     if (handle === "counter_revolutionary") {
       loyaltyLevel = "Needs Re-education";
@@ -80,14 +84,12 @@ app.post("/generate-forcecard", async (req, res) => {
       socialCredit: socialCredit,
       surveillanceStatus: surveillanceStatus,
       sentiment: sentiment,
-      contentCompliance: contentCompliance,
-      avatar: `https://unavatar.io/twitter/${handle}`, // ONLY Profile picture is needed
+      avatar: `https://unavatar.io/twitter/${handle}`,  // Only profile picture
       tagline: tagline,
       card_id: cardId
     };
 
     console.log("Generated Card Data:", responseCard);
-
     res.json(responseCard);
 
   } catch (err) {
