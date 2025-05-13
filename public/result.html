@@ -4,11 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CCP Social Credit ID</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 </head>
 <body>
-  <h1 class="title-header">💳 Your CCP Social Credit ID</h1>
+  <h1 class="title-header">💳 CCP Social Credit ID</h1>
+  <div class="card-form">
+    <input id="handle" type="text" placeholder="Enter X handle" />
+    <button id="generate">Generate My Card</button>
+  </div>
 
   <div id="cardContainer" class="card hidden">
     <div class="top-bar">
@@ -16,7 +21,7 @@
       <span id="socialCreditScore">Social Credit: 1000</span>
     </div>
 
-    <div class="banner-container">
+    <div class="avatar-container">
       <img id="avatar" class="avatar" src="" alt="Avatar">
     </div>
 
@@ -30,9 +35,9 @@
     </div>
 
     <ul class="stats">
-      <li id="surveillanceStatus">Surveillance Status: <span id="statusText">Full Compliance</span></li>
-      <li id="sentiment">Sentiment: <span id="sentimentText">Patriot</span></li>
-      <li id="tagline">Tagline: <span id="taglineText">Model Citizen</span></li>
+      <li id="surveillanceStatus">Surveillance Status: Full Compliance</li>
+      <li id="sentiment">Sentiment: Positive</li>
+      <li id="tagline">Tagline: Model Citizen</li>
     </ul>
 
     <div class="footer-meta">
