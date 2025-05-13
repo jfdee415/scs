@@ -16,15 +16,15 @@ body {
 }
 
 .card {
-  max-width: 400px;
+  max-width: 350px;
   margin: 0 auto;
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border: 2px solid #ff0040; /* Red border */
   background: linear-gradient(135deg, #ffd700, #f44336); /* Gold + Red color for a CCP feel */
 }
@@ -42,33 +42,29 @@ body {
   margin-bottom: 15px;
 }
 
+.avatar-container {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  background-color: #fff;
+  margin-top: -50px;
+}
+
 .avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   border: 4px solid white;
   position: absolute;
-  top: -55px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-}
-
-.banner-container {
-  position: relative;
-  width: 100%;
-  height: 120px;
-  background-color: #333;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 35px;
+  transform: translate(-50%, -50%);
 }
 
 .counts {
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  padding: 0 10px;
   margin-top: 10px;
 }
 
@@ -90,13 +86,13 @@ body {
 
 #sentiment {
   font-size: 1.1rem;
-  color: #00bfff;
+  color: #00bfff; /* Positive sentiment color */
 }
 
 #tagline {
   font-size: 1.1rem;
   font-style: italic;
-  color: #ff6347;
+  color: #ff6347; /* For tagline styling */
 }
 
 .footer-meta {
@@ -108,10 +104,6 @@ body {
 
 .footer-meta span {
   margin-right: 10px;
-}
-
-.qr-code {
-  margin-top: 20px;
 }
 
 .social-footer {
