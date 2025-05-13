@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const res = await fetch("/generate-forcecard", {
+        const res = await fetch("/generate-ccp-card", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ handle })
@@ -53,10 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = JSON.parse(localStorage.getItem("socialCreditCard"));
     if (!card) return (window.location.href = "/");
 
-    // Log card data for debugging
-    console.log("Card data from localStorage:", card);
-
-    // Display all the new social credit elements
     document.getElementById("loyaltyLevel").innerText = `Loyalty Level: ${card.loyaltyLevel}`;
     document.getElementById("socialCreditScore").innerText = `Social Credit: ${card.socialCredit}`;
     document.getElementById("tagline").innerText = `Tagline: ${card.tagline}`;
@@ -64,10 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("following").innerText = `Following: ${card.following}`;
     document.getElementById("card_name").innerText = `Comrade ${card.handle}`;
 
-    // Set the profile picture (avatar)
     const avatar = document.getElementById("avatar");
-    avatar.src = card.avatar || "default-avatar.png";
-
+    avatar.src = card.avatar || "default-avatar.png"; // Set profile picture (avatar)
+    
     // Show the card
     const cardContainer = document.getElementById("cardContainer");
     cardContainer.classList.remove("hidden");
