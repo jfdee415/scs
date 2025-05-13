@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await fetch("/generate-forcecard", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ handle }),
+          body: JSON.stringify({ handle })
         });
 
         const contentType = res.headers.get("content-type");
@@ -53,21 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = JSON.parse(localStorage.getItem("socialCreditCard"));
     if (!card) return (window.location.href = "/");
 
+    // Log card data for debugging
+    console.log("Card data from localStorage:", card);
+
     // Display all the new social credit elements
     document.getElementById("loyaltyLevel").innerText = `Loyalty Level: ${card.loyaltyLevel}`;
     document.getElementById("socialCreditScore").innerText = `Social Credit: ${card.socialCredit}`;
-    document.getElementById("sentiment").innerText = `Sentiment: ${card.sentiment}`;
+    document.getElementById("tagline").innerText = `Tagline: ${card.tagline}`;
     document.getElementById("followers").innerText = `Followers: ${card.followers}`;
     document.getElementById("following").innerText = `Following: ${card.following}`;
     document.getElementById("card_name").innerText = `Comrade ${card.handle}`;
 
-    // Only set the profile picture (avatar)
+    // Set the profile picture (avatar)
     const avatar = document.getElementById("avatar");
-    if (avatar) avatar.src = card.avatar || "default-avatar.png";
-
-    // Update other fields
-    document.getElementById("surveillanceStatus").innerText = `Surveillance Status: ${card.surveillanceStatus}`;
-    document.getElementById("tagline").innerText = `Tagline: ${card.tagline}`;
+    avatar.src = card.avatar || "default-avatar.png";
 
     // Show the card
     const cardContainer = document.getElementById("cardContainer");
