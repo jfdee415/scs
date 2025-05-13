@@ -11,8 +11,38 @@
 <body>
   <h1 class="title-header">💳 CCP Social Credit ID</h1>
   <div class="card-form">
-    <input id="handle" type="text" placeholder="@yourXhandle" />
+    <input id="handle" type="text" placeholder="Enter X handle" />
     <button id="generate">Generate My Card</button>
+  </div>
+
+  <div id="cardContainer" class="card hidden">
+    <div class="top-bar">
+      <span id="loyaltyLevel">Loyalty Level: High</span>
+      <span id="socialCreditScore">Social Credit: 1000</span>
+    </div>
+
+    <div class="avatar-container">
+      <img id="avatar" class="avatar" src="" alt="Avatar">
+    </div>
+
+    <div class="counts">
+      <span id="followers">Followers: 0</span>
+      <span id="following">Following: 0</span>
+    </div>
+
+    <div class="header-content">
+      <h2 id="card_name">Comrade @handle</h2>
+    </div>
+
+    <ul class="stats">
+      <li id="surveillanceStatus">Surveillance Status: Full Compliance</li>
+      <li id="sentiment">Sentiment: Positive</li>
+      <li id="tagline">Tagline: Model Citizen</li>
+    </ul>
+
+    <div class="footer-meta">
+      <span>Approved by Ministry of Surveillance</span>
+    </div>
   </div>
 </body>
 </html>
